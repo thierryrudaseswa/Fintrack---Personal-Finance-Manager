@@ -3,6 +3,42 @@ import 'package:themeflutter/screens/NextOnePage.dart';
 import 'package:themeflutter/screens/NextTwoPage.dart';
 import 'package:themeflutter/screens/NextthreePage.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  ThemeMode _themeMode = ThemeMode.light;
+
+  void _toggleTheme(ThemeMode themeMode) {
+    setState(() {
+      _themeMode = themeMode;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      darkTheme: ThemeData.dark(),
+      themeMode: _themeMode,
+      initialRoute: '/',
+      routes: {
+        '/': (context) => MyHomePage(toggleTheme: _toggleTheme),
+        '/nextTwo': (context) => NextTwoPage(toggleTheme: _toggleTheme),
+        '/nextThree': (context) => NextThreePage(),
+      },
+    );
+  }
+}
+
 class MyHomePage extends StatefulWidget {
   final void Function(ThemeMode) toggleTheme;
 
@@ -13,7 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0; // Set initial index to 0 for NextOnePage
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -26,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         Navigator.pushNamed(context, '/');
         break;
       case 1:
-        Navigator.pushNamed(context, '/NextTwoPage');
+        Navigator.pushNamed(context, '/nextTwo');
         break;
       case 2:
         Navigator.pushNamed(context, '/nextThree');
@@ -43,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.brightness_6),
             onPressed: () {
-              // Toggle between light and dark themes
               ThemeMode newThemeMode =
                   Theme.of(context).brightness == Brightness.dark
                       ? ThemeMode.light
@@ -54,9 +89,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: _selectedIndex == 0
-          ? NextOnePage({})
+          ? NextOnePage(toggleTheme: widget.toggleTheme)
           : _selectedIndex == 1
-              ? NextTwoPage()
+              ? NextTwoPage(toggleTheme: widget.toggleTheme)
               : NextThreePage(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -79,22 +114,4 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(
-    MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => MyHomePage(
-              toggleTheme: (mode) {}, // Define your toggleTheme function here
-            ),
-        '/nextTwo': (context) => NextTwoPage(),
-        '/nextThree': (context) => NextThreePage(),
-      },
-    ),
-  );
 }

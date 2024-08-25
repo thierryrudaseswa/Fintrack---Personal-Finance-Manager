@@ -71,10 +71,10 @@ class _BankingSystemState extends State<BankingSystem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Banking System'),
+        title: const Text('Banking System'),
         actions: [
           IconButton(
-            icon: Icon(Icons.brightness_6),
+            icon: const Icon(Icons.brightness_6),
             onPressed: () {
               // Toggle between light and dark themes
               ThemeMode newThemeMode =
@@ -86,7 +86,10 @@ class _BankingSystemState extends State<BankingSystem> {
           ),
         ],
       ),
-      body: _currentIndex == -1 ? NextOnePage() : _pages[_currentIndex],
+      body: _currentIndex == -1
+          ? NextOnePage(
+              toggleTheme: widget.toggleTheme) // Pass toggleTheme here
+          : _pages[_currentIndex],
       bottomNavigationBar: _currentIndex != -1
           ? FloatingNavbar(
               selectedBackgroundColor: Colors.blue,
@@ -94,7 +97,7 @@ class _BankingSystemState extends State<BankingSystem> {
               unselectedItemColor: Colors.grey,
               onTap: (index) => setState(() => _currentIndex = index),
               currentIndex: _currentIndex,
-              items: [
+              items: const [
                 FloatingNavbarItem(icon: Icons.home, title: 'Home'),
                 FloatingNavbarItem(icon: Icons.edit, title: 'Edit'),
                 FloatingNavbarItem(icon: Icons.person, title: 'Profile'),
@@ -114,7 +117,7 @@ class FloatingNavbar extends StatelessWidget {
   final int currentIndex;
   final List<FloatingNavbarItem> items;
 
-  FloatingNavbar({
+  const FloatingNavbar({
     required this.selectedBackgroundColor,
     required this.selectedItemColor,
     required this.unselectedItemColor,
@@ -147,5 +150,5 @@ class FloatingNavbarItem {
   final IconData icon;
   final String title;
 
-  FloatingNavbarItem({required this.icon, required this.title});
+  const FloatingNavbarItem({required this.icon, required this.title});
 }

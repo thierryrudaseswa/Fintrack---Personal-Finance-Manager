@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:themeflutter/components/Button.dart';
 import 'package:themeflutter/screens/NextTwoPage.dart';
 
 class NextOnePage extends StatefulWidget {
   final void Function(ThemeMode) toggleTheme;
+
   const NextOnePage({Key? key, required this.toggleTheme}) : super(key: key);
 
   @override
@@ -16,35 +16,34 @@ class _NextOnePageState extends State<NextOnePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("my Home Page"),
+        title: const Text("My Home Page"),
         actions: [
           IconButton(
-              icon: Icon(Icons.brightness_6),
-              onPressed: () {
-                ThemeMode newThemeMode =
-                    Theme.of(context).brightness == Brightness.dark
-                        ? ThemeMode.light
-                        : ThemeMode.dark;
-                widget.toggleTheme(newThemeMode);
-              })
+            icon: const Icon(Icons.brightness_6),
+            onPressed: () {
+              ThemeMode newThemeMode =
+                  Theme.of(context).brightness == Brightness.dark
+                      ? ThemeMode.light
+                      : ThemeMode.dark;
+              widget.toggleTheme(newThemeMode);
+            },
+          ),
         ],
       ),
       body: Container(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 60, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 60, 0, 10),
               child: Image.asset(
                 'assets/nextone.png',
                 width: MediaQuery.of(context).size.width * 1.4,
                 height: MediaQuery.of(context).size.height * 0.3,
               ),
             ),
-            SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 40),
             Column(
-              children: [
+              children: const [
                 Text(
                   'Fastest payment in',
                   style: TextStyle(
@@ -64,11 +63,9 @@ class _NextOnePageState extends State<NextOnePage> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 40,
-            ),
+            const SizedBox(height: 40),
             Column(
-              children: [
+              children: const [
                 Text(
                   'Integrate multiple payment methods',
                   style: TextStyle(
@@ -88,20 +85,22 @@ class _NextOnePageState extends State<NextOnePage> {
                 ),
               ],
             ),
-            SizedBox(
-              height: 60,
-            ),
+            const SizedBox(height: 60),
             ButtonCo(
               label: 'Next',
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => NextTwoPage()),
-                    (route) => false);
-                // Navigator.pushNamed(context, '/NextTwoPage');
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NextTwoPage(
+                        toggleTheme: widget
+                            .toggleTheme), // Pass the toggleTheme function here
+                  ),
+                  (route) => false,
+                );
               },
               width: 200,
-              backgroundColor: Color(0xFF0066FF),
+              backgroundColor: const Color(0xFF0066FF),
             ),
           ],
         ),
